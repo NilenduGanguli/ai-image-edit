@@ -1,0 +1,67 @@
+/* General Body Styles */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Tab Styles */
+.tab-button {
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease-in-out;
+    font-weight: 500;
+    color: #6b7280; /* text-gray-500 */
+}
+.dark .tab-button {
+    color: #9ca3af; /* dark:text-gray-400 */
+}
+
+.tab-button:hover {
+    background-color: #f3f4f6; /* bg-gray-100 */
+    color: #1f2937; /* text-gray-800 */
+}
+.dark .tab-button:hover {
+    background-color: #374151; /* dark:bg-gray-700 */
+    color: #f9fafb; /* dark:text-gray-50 */
+}
+
+.tab-button.active-tab {
+    color: #4f46e5; /* text-indigo-600 */
+    border-color: #4f46e5; /* border-indigo-600 */
+    font-weight: 600;
+}
+.dark .tab-button.active-tab {
+    color: #818cf8; /* dark:text-indigo-400 */
+    border-color: #818cf8; /* dark:border-indigo-400 */
+}
+
+/* A simple spinner for loading states */
+.spinner {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spinner-border .75s linear infinite;
+}
+
+@keyframes spinner-border {
+    to { transform: rotate(360deg); }
+}
+
+/* Class for fade-in animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Landing Page Feature Card */
+.feature-card {
+    @apply bg-gray-50 dark:bg-gray-700/50 p-6 rounded-lg text-center border border-transparent hover:border-indigo-500 hover:shadow-lg transition-all;
+}
+

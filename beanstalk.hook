@@ -1,0 +1,4 @@
+#!/bin/bash
+source /var/app/venv/*/bin/activate
+cd /var/app/current
+python database_setup.py

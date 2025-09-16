@@ -1,0 +1,133 @@
+Boo Boograph - AI Photoshop Assistant (Deployment Ready)
+Boo Boograph is an AI-powered image editing assistant. It can fetch image editing requests from Reddit's r/PhotoshopRequest, or you can upload your own image. Using Google's Gemini AI, it analyzes the request, generates an editing prompt, and then performs the image manipulation, providing a before-and-after view.
+
+This version is configured for deployment on cloud platforms like AWS Elastic Beanstalk.
+
+🚀 Core Features
+Two Image Sources: Fetch posts from r/PhotoshopRequest or upload your own image.
+
+AI-Powered Request Analysis: Uses Gemini 1.5 Flash to understand natural language requests and generate editing prompts.
+
+Intelligent Image Editing: Leverages Gemini 1.5 Flash to perform the actual image edits.
+
+Persistent User Authentication: Secure user registration and login system using JWT and a persistent SQLite database.
+
+Referral System: Optionally restrict signups to users with a valid referral code.
+
+Modern UI: A clean, responsive dashboard with Queue, Editor, and History tabs.
+
+Local History: Saves your edited images in your browser's local storage.
+
+Automated Server Cleanup: A cleanup_service.py script is provided to be run as a cron job to clear old images and prevent the server from running out of disk space.
+
+🏗️ Architecture
+Backend: FastAPI
+
+Frontend: HTML, Tailwind CSS, Vanilla JavaScript
+
+AI Models: Google Gemini 1.5 Flash
+
+Reddit API: praw library
+
+Database: SQLite for user authentication data.
+
+Authentication: JWT-based authentication with python-jose and passlib.
+
+📋 Prerequisites
+Python 3.8+
+
+An AWS Account
+
+The AWS Elastic Beanstalk CLI (eb cli) installed and configured.
+
+A Google AI API key.
+
+(Optional) Reddit API credentials.
+
+🛠️ Local Setup
+Clone the repository and navigate into the directory.
+
+Create and activate a virtual environment:
+
+python -m venv .venv
+source .venv/bin/activate
+# On Windows: .venv\Scripts\activate
+
+Install dependencies:
+
+pip install -r requirements.txt
+
+Configure environment variables:
+Create a file named .env by copying the example:
+
+cp .env.example .env
+
+Now, open the .env file and fill in your keys and settings. Set the ADMIN_EMAIL to your email address.
+
+Initialize the Database:
+Run the setup script to create the users.db file.
+
+python database_setup.py
+
+🚀 Running Locally
+Start the development server with Uvicorn:
+
+uvicorn main:app --reload
+
+Open your browser to http://127.0.0.1:8000.
+
+☁️ Deploying to AWS Elastic Beanstalk
+This guide assumes you have the AWS EB CLI installed and configured.
+
+Initialize Elastic Beanstalk:
+In your project root, run:
+
+eb init -p python-3.9 boo-boograph-app --region us-east-1
+
+(Replace us-east-1 with your preferred AWS region).
+
+Create the Environment:
+This command will package your application, upload it to AWS, and create the necessary resources.
+
+eb create boo-boograph-env
+
+Set Environment Variables:
+Your application needs the API keys and secrets from your .env file to run on AWS.
+
+eb setenv $(cat .env | xargs)
+
+This command reads your local .env file and securely sets the variables in your Elastic Beanstalk environment.
+
+Make Scripts Executable:
+The deployment hook needs to be executable. Run this command to set the correct permissions before deploying.
+
+git update-index --chmod=+x .platform/hooks/postdeploy/01_run_db_setup.sh
+
+Deploy Your Code:
+After making any code changes, deploy them with:
+
+eb deploy
+
+The deployment hook will automatically run python database_setup.py on the server to ensure the database exists.
+
+Open Your Application:
+Once the deployment is complete, open your live application in the browser:
+
+eb open
+
+Setting up the Automated Cleanup Cron Job on AWS
+The apscheduler has been removed from the main app. To clean up old images on your Elastic Beanstalk server, you need to set up a cron job.
+
+SSH into your EC2 instance:
+Find your instance in the AWS console or run eb ssh.
+
+Edit the crontab:
+
+crontab -e
+
+Add the cleanup job:
+Add the following line to the file. This will run the cleanup script every hour.
+
+0 * * * * /usr/bin/python3 /var/app/current/cleanup_service.py
+
+Save and exit the editor. The cron job is now active.

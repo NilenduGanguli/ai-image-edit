@@ -1,0 +1,20 @@
+# FastAPI Server
+fastapi
+uvicorn[standard]
+python-multipart
+python-jose[cryptography]
+passlib[bcrypt]
+fastapi-apscheduler
+sqlalchemy
+
+# Environment Variables
+python-dotenv
+
+# API Clients
+praw
+google-generativeai
+requests
+httpx
+
+# Image Processing
+Pillow
