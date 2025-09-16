@@ -68,5 +68,4 @@ venv.bak/
 static/uploads/
 static/edited_images/
 temp/
-users.
-db
+users.db
